@@ -1,11 +1,11 @@
 const ResponseMsgs: any = {
   wrongCredentials: 'Incorect Username (or) password',
 
-  categoryCreated: 'New Product Category Added',
-  categoryUpdated: 'Category name Updated',
-  categoryExist: 'Category Already Exist !',
-  categoryNotExist: "Category Does'nt Exist !",
-  categoryDeleted: 'Category Deleted Successfully !',
+  Created: 'New Entity Created',
+  Updated: 'Entity Updated',
+  Exist: 'Entity Already Exist !',
+  NotExist: "Entity Does'nt Exist !",
+  Deleted: 'Entity Deleted Successfully !',
 };
 
 export default ResponseMsgs;

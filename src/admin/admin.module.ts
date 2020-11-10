@@ -4,6 +4,7 @@ import { AdminController } from './admin.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AdminSchema } from './../models/Admin.schema';
 import { CategorySchema } from './../models/Category.schema';
+import { ProductSchema } from './../models/Product.schema';
 import { authMiddleware } from '../utils/authMiddleware';
 
 @Module({
@@ -11,6 +12,7 @@ import { authMiddleware } from '../utils/authMiddleware';
     MongooseModule.forFeature([
       { name: 'Admin', schema: AdminSchema },
       { name: 'Category', schema: CategorySchema },
+      { name: 'Product', schema: ProductSchema },
     ]),
   ],
   providers: [AdminService],
