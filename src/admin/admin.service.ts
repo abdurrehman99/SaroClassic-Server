@@ -47,28 +47,40 @@ export class AdminService {
 
   /******* Change Password Admin *******/
 
-  async changePassword(password) {
-    let hashedPassword = bcrypt.hashSync(password, 8);
-    const changed = await this.adminModel.findOneAndUpdate({
-      password: hashedPassword,
+  async changePassword(passwordOld, passwordNew) {
+    const admin = await this.adminModel.findOne({
+      email: 'admin@saroclassic.com',
     });
     // console.log(changed);
-    if (changed) {
-      throw new HttpException(
-        {
-          statusCode: HttpStatus.OK,
-          msg: ResponseMsgs.passwordChanged,
-        },
-        HttpStatus.OK,
+    if (admin) {
+      let passwordMatched = await bcrypt.compareSync(
+        passwordOld,
+        admin.password,
       );
-    } else {
-      throw new HttpException(
-        {
-          statusCode: HttpStatus.BAD_REQUEST,
-          msg: ResponseMsgs.passwordNotChanged,
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      if (passwordMatched) {
+        let hashedPassword = bcrypt.hashSync(passwordNew, 8);
+
+        let changed = await this.adminModel.findOneAndUpdate({
+          password: hashedPassword,
+        });
+        if (changed) {
+          throw new HttpException(
+            {
+              statusCode: HttpStatus.OK,
+              msg: ResponseMsgs.passwordChanged,
+            },
+            HttpStatus.OK,
+          );
+        }
+      } else {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.BAD_REQUEST,
+            msg: ResponseMsgs.passwordNotChanged,
+          },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
     }
   }
 

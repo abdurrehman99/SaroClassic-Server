@@ -24,8 +24,11 @@ export class AdminController {
   }
 
   @Post('changePassword')
-  async changePassword(@Body('password') password: string) {
-    return await this.adminService.changePassword(password);
+  async changePassword(
+    @Body('passwordNew') passwordNew: string,
+    @Body('passwordOld') passwordOld: string,
+  ) {
+    return await this.adminService.changePassword(passwordOld, passwordNew);
   }
 
   /** Category Routes **/
