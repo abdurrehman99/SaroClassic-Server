@@ -20,7 +20,7 @@ export class AdminService {
   constructor(
     @InjectModel('Admin') private readonly adminModel: Model<Admin>,
     @InjectModel('Category') private readonly categoryModel: Model<Category>,
-    @InjectModel('Category') private readonly productModel: Model<Product>,
+    @InjectModel('Product') private readonly productModel: Model<Product>,
   ) {}
 
   /******* Login Admin *******/
@@ -42,6 +42,33 @@ export class AdminService {
       } else throw new BadRequestException(ResponseMsgs.wrongCredentials);
     } else {
       throw new BadRequestException(ResponseMsgs.wrongCredentials);
+    }
+  }
+
+  /******* Change Password Admin *******/
+
+  async changePassword(password) {
+    let hashedPassword = bcrypt.hashSync(password, 8);
+    const changed = await this.adminModel.findOneAndUpdate({
+      password: hashedPassword,
+    });
+    // console.log(changed);
+    if (changed) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.OK,
+          msg: ResponseMsgs.passwordChanged,
+        },
+        HttpStatus.OK,
+      );
+    } else {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.BAD_REQUEST,
+          msg: ResponseMsgs.passwordNotChanged,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
     }
   }
 
@@ -94,6 +121,7 @@ export class AdminService {
 
   /******* Add new Product  *******/
   async addNewProduct(product) {
+    console.log(product);
     const newProduct = this.productModel(product);
     await newProduct.save();
     if (newProduct) return { msg: ResponseMsgs.Created };
@@ -139,7 +167,7 @@ export class AdminService {
 
   /******* Delete Product  *******/
   async deleteProduct(_id) {
-    let deletedProduct = await this.productModel.deleteOne(_id);
+    let deletedProduct = await this.productModel.deleteOne({ _id: 'assa' });
     if (deletedProduct.deletedCount === 1) {
       throw new HttpException(
         {

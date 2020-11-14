@@ -24,6 +24,9 @@ export const ProductSchema = new mongoose.Schema({
   price: {
     type: Number,
   },
+  size: {
+    type: String,
+  },
   feedback: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -40,5 +43,6 @@ export interface Product {
   description: string;
   outOfStock: boolean;
   price: number;
+  size: string;
   feedback: string;
 }

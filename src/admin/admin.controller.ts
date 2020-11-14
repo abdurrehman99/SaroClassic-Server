@@ -14,12 +14,18 @@ import { Product } from '../models/Product.schema';
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
+  /** Admin Routes **/
   @Post('login')
   async login(
     @Body('email') email: string,
     @Body('password') password: string,
   ) {
     return await this.adminService.login(email, password);
+  }
+
+  @Post('changePassword')
+  async changePassword(@Body('password') password: string) {
+    return await this.adminService.changePassword(password);
   }
 
   /** Category Routes **/
@@ -48,8 +54,8 @@ export class AdminController {
   /** Product Routes **/
 
   @Post('addNewProduct')
-  async addNewProduct(@Body('product') product: Product) {
-    return await this.adminService.addNewProduct(product);
+  async addNewProduct(@Body() Body: Product) {
+    return await this.adminService.addNewProduct(Body);
   }
 
   @Post('editProduct')
@@ -77,6 +83,7 @@ export class AdminController {
 
   @Delete('deleteProduct')
   async deleteProduct(@Query('id') id: string) {
-    return await this.adminService.deleteProduct(id);
+    console.log(id);
+    // return await this.adminService.deleteProduct(id);
   }
 }

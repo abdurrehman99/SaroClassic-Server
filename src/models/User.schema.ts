@@ -23,6 +23,7 @@ export const User = new mongoose.Schema({
   },
   typeOfCustomer: {
     type: String,
+    enum: ['WALK-IN', 'LOGGED-IN'],
   },
   orders: {
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Orders' }],

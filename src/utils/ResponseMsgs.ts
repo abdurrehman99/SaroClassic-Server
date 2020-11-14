@@ -6,6 +6,8 @@ const ResponseMsgs: any = {
   Exist: 'Entity Already Exist !',
   NotExist: "Entity Does'nt Exist !",
   Deleted: 'Entity Deleted Successfully !',
+  passwordChanged: 'Passowrd Changed Successfully !',
+  passwordNotChanged: 'Failed to Change Password',
 };
 
 export default ResponseMsgs;

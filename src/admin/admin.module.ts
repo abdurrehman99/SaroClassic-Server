@@ -25,6 +25,7 @@ export class AdminModule {
       .exclude(
         { path: '/admin/login', method: RequestMethod.POST },
         { path: '/admin/create', method: RequestMethod.POST },
+        { path: '/admin/getAllCategories', method: RequestMethod.GET },
       )
       .forRoutes(AdminController);
   }
