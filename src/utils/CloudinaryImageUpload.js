@@ -191,6 +191,7 @@ export default function FishInput({ fetchFish, setOpen, open }) {
     }
     return null;
   };
+
   // cloudinary
   const uploadImage = () => {
     const formData = new FormData();

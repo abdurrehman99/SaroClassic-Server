@@ -19,14 +19,14 @@ import { authMiddleware } from '../utils/authMiddleware';
   controllers: [AdminController],
 })
 export class AdminModule {
-  configure(consumer: MiddlewareConsumer) {
-    consumer
-      .apply(authMiddleware)
-      .exclude(
-        { path: '/admin/login', method: RequestMethod.POST },
-        { path: '/admin/create', method: RequestMethod.POST },
-        { path: '/admin/getAllCategories', method: RequestMethod.GET },
-      )
-      .forRoutes(AdminController);
-  }
+  // configure(consumer: MiddlewareConsumer) {
+  //   consumer
+  //     .apply(authMiddleware)
+  //     .exclude(
+  //       { path: '/admin/login', method: RequestMethod.POST },
+  //       { path: '/admin/create', method: RequestMethod.POST },
+  //       { path: '/admin/getAllCategories', method: RequestMethod.GET },
+  //     )
+  //     .forRoutes(AdminController);
+  // }
 }
