@@ -86,7 +86,6 @@ export class AdminController {
 
   @Delete('deleteProduct')
   async deleteProduct(@Query('id') id: string) {
-    console.log(id);
-    // return await this.adminService.deleteProduct(id);
+    return await this.adminService.deleteProduct(id);
   }
 }
