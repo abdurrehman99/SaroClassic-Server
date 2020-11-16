@@ -179,7 +179,7 @@ export class AdminService {
 
   /******* Delete Product  *******/
   async deleteProduct(_id) {
-    let deletedProduct = await this.productModel.deleteOne({ _id: 'assa' });
+    let deletedProduct = await this.productModel.deleteOne({ _id });
     if (deletedProduct.deletedCount === 1) {
       throw new HttpException(
         {
