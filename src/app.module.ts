@@ -6,6 +6,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { AdminModule } from './admin/admin.module';
 import { CategoriesModule } from './categories/categories.module';
 import { ProductsModule } from './products/products.module';
+import { UserModule } from './user/user.module';
 import 'dotenv/config';
 
 @Module({
@@ -32,6 +33,7 @@ import 'dotenv/config';
     AdminModule,
     CategoriesModule,
     ProductsModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
