@@ -28,7 +28,12 @@ export class UserController {
     @Body('name') name: string,
     @Body('contact') contact: string,
   ) {
-    return await this.userService.signup(email, password, name, contact);
+    return await this.userService.signup(
+      email.toLowerCase(),
+      password,
+      name,
+      contact,
+    );
   }
 
   @Post('decodeUser')
