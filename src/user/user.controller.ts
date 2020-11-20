@@ -30,4 +30,9 @@ export class UserController {
   ) {
     return await this.userService.signup(email, password, name, contact);
   }
+
+  @Post('decodeUser')
+  async decodeUserData(@Body('token') token: string) {
+    return await this.userService.decodeUserData(token);
+  }
 }

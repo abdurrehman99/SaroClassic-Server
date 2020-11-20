@@ -10,6 +10,7 @@ import { User } from '../models/User.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import ResponseMsgs from '../utils/ResponseMsgs';
+import jwtDecode from 'jwt-decode';
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -18,6 +19,22 @@ const bcrypt = require('bcryptjs');
 export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
+  async decodeUserData(token) {
+    const decodeUser: { email: string } = jwtDecode(token);
+    const { email } = decodeUser;
+    let user = await this.userModel.findOne({ email });
+    if (user) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.OK,
+          user,
+        },
+        HttpStatus.OK,
+      );
+    } else {
+      throw new BadRequestException();
+    }
+  }
   async login(email, password) {
     let user = await this.userModel.findOne({ email });
     if (user) {
