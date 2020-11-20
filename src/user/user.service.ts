@@ -59,7 +59,8 @@ export class UserService {
   }
 
   async signup(email, password, name, contact) {
-    let exist = this.userModel.findOne({ email });
+    let exist = await this.userModel.findOne({ email });
+    console.log(exist);
     if (exist) throw new BadRequestException(ResponseMsgs.Exist);
     else {
       let hashedPassword = await bcrypt.hashSync(password, 8);
