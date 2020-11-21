@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   Query,
+  Put,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 
@@ -39,5 +40,33 @@ export class UserController {
   @Post('decodeUser')
   async decodeUserData(@Body('token') token: string) {
     return await this.userService.decodeUserData(token);
+  }
+
+  @Put('updateProfile')
+  async updateProfile(
+    @Body('email') email: string,
+    @Body('name') name: string,
+    @Body('contact') contact: string,
+    @Body('shippingAddress') shippingAddress: string,
+  ) {
+    return await this.userService.updateProfile(
+      email,
+      name,
+      contact,
+      shippingAddress,
+    );
+  }
+
+  @Put('updatePassword')
+  async updatePassword(
+    @Body('email') email: string,
+    @Body('oldPassword') oldPassword: string,
+    @Body('newPassword') newPassword: string,
+  ) {
+    return await this.userService.updatePassword(
+      email,
+      oldPassword,
+      newPassword,
+    );
   }
 }

@@ -16,9 +16,6 @@ export const UserSchema = new mongoose.Schema({
   password: {
     type: String,
   },
-  billingAddress: {
-    type: String,
-  },
   shippingAddress: {
     type: String,
   },

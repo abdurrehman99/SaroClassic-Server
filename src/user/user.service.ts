@@ -74,4 +74,61 @@ export class UserService {
       return { msg: ResponseMsgs.Created };
     }
   }
+  async updateProfile(email, name, contact, shippingAddress) {
+    let updateData = {
+      email: email ? email : null,
+      name: name ? name : null,
+      contact: contact ? contact : null,
+      shippingAddress: shippingAddress ? shippingAddress : null,
+    };
+    let user = await this.userModel.findOneAndUpdate({ email }, updateData);
+    if (user) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.OK,
+          user,
+        },
+        HttpStatus.OK,
+      );
+    } else {
+      throw new BadRequestException();
+    }
+  }
+
+  async updatePassword(email, oldPassword, newPassword) {
+    let user = await this.userModel.findOne({ email });
+    let hashedPassword = await bcrypt.hashSync(newPassword, 8);
+
+    if (user) {
+      let passwordMatched = await bcrypt.compareSync(
+        oldPassword,
+        user.password,
+      );
+      if (passwordMatched) {
+        let updated = await this.userModel.findOneAndUpdate(
+          { email },
+          { password: hashedPassword },
+        );
+        if (updated) {
+          throw new HttpException(
+            {
+              statusCode: HttpStatus.OK,
+              msg: ResponseMsgs.passwordChanged,
+            },
+            HttpStatus.OK,
+          );
+        } else {
+          throw new BadRequestException();
+        }
+      } else {
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.BAD_REQUEST,
+            error: ResponseMsgs.passwordNotChanged,
+          },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    }
+  }
 }
