@@ -100,32 +100,36 @@ export class UserService {
     }
   }
 
-  async updatePassword(email, oldPassword, newPassword) {
-    let user = await this.userModel.findOne({ email });
-    let hashedPassword = await bcrypt.hashSync(newPassword, 8);
-
+  async updatePassword(email, passwordOld, passwordNew) {
+    const user = await this.userModel.findOne({
+      email,
+    });
+    // console.log(changed);
     if (user) {
       let passwordMatched = await bcrypt.compareSync(
-        oldPassword,
+        passwordOld,
         user.password,
       );
       if (passwordMatched) {
-        let updated = await this.userModel.findOneAndUpdate(
-          { email },
-          { password: hashedPassword },
-        );
-        throw new HttpException(
-          {
-            statusCode: HttpStatus.OK,
-            msg: ResponseMsgs.passwordChanged,
-          },
-          HttpStatus.OK,
-        );
+        let hashedPassword = bcrypt.hashSync(passwordNew, 8);
+
+        let changed = await this.userModel.findOneAndUpdate({
+          password: hashedPassword,
+        });
+        if (changed) {
+          throw new HttpException(
+            {
+              statusCode: HttpStatus.OK,
+              msg: ResponseMsgs.passwordChanged,
+            },
+            HttpStatus.OK,
+          );
+        }
       } else {
         throw new HttpException(
           {
             statusCode: HttpStatus.BAD_REQUEST,
-            error: ResponseMsgs.passwordNotChanged,
+            msg: ResponseMsgs.passwordNotChanged,
           },
           HttpStatus.BAD_REQUEST,
         );
