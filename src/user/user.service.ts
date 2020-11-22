@@ -52,7 +52,7 @@ export class UserService {
         throw new HttpException(
           {
             statusCode: HttpStatus.OK,
-            token: 'Bearer ' + token,
+            token,
             user,
           },
           HttpStatus.OK,
@@ -114,17 +114,13 @@ export class UserService {
           { email },
           { password: hashedPassword },
         );
-        if (updated) {
-          throw new HttpException(
-            {
-              statusCode: HttpStatus.OK,
-              msg: ResponseMsgs.passwordChanged,
-            },
-            HttpStatus.OK,
-          );
-        } else {
-          throw new BadRequestException();
-        }
+        throw new HttpException(
+          {
+            statusCode: HttpStatus.OK,
+            msg: ResponseMsgs.passwordChanged,
+          },
+          HttpStatus.OK,
+        );
       } else {
         throw new HttpException(
           {
