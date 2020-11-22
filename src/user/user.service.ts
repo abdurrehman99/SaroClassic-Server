@@ -37,12 +37,17 @@ export class UserService {
   }
   async login(email, password) {
     let user = await this.userModel.findOne({ email });
+    const { contact, name, shippingAddress } = user;
     if (user) {
       let passwordMatched = await bcrypt.compareSync(password, user.password);
       if (passwordMatched) {
-        const token = jwt.sign({ email }, 'secret', {
-          expiresIn: '24h',
-        });
+        const token = jwt.sign(
+          { email, contact, name, shippingAddress },
+          'secret',
+          {
+            expiresIn: '24h',
+          },
+        );
         user.password = '';
         throw new HttpException(
           {
