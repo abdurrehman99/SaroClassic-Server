@@ -20,8 +20,11 @@ export class ProductsService {
   ) {}
 
   /******* Get All products *******/
-  async getAllProducts() {
-    const products = await this.productsModel.find();
+  async getAllProducts(category, limit) {
+    let products = [];
+    if (category)
+      products = await this.productsModel.find({ category }).limit(limit);
+    else products = await this.productsModel.find().limit(limit);
     const categories = await this.categoriesModel.find();
     throw new HttpException(
       {

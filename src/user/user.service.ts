@@ -35,6 +35,7 @@ export class UserService {
       throw new BadRequestException();
     }
   }
+
   async login(email, password) {
     let user = await this.userModel.findOne({ email });
     const { contact, name, shippingAddress } = user;
@@ -79,6 +80,7 @@ export class UserService {
       return { msg: ResponseMsgs.Created };
     }
   }
+
   async updateProfile(email, name, contact, shippingAddress) {
     let updateData = {
       email: email ? email : null,
@@ -129,7 +131,7 @@ export class UserService {
         throw new HttpException(
           {
             statusCode: HttpStatus.BAD_REQUEST,
-            msg: ResponseMsgs.passwordNotChanged,
+            error: ResponseMsgs.passwordNotChanged,
           },
           HttpStatus.BAD_REQUEST,
         );
