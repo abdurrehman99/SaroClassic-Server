@@ -95,6 +95,7 @@ export class AdminController {
     @Query('id') id: string,
     @Body('featured') featured: boolean,
   ) {
+    console.log(id, featured);
     return await this.adminService.featureProduct(id, featured);
   }
 }
