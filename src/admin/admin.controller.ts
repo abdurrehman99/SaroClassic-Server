@@ -6,6 +6,7 @@ import {
   Param,
   Delete,
   Query,
+  Put,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { Product } from '../models/Product.schema';
@@ -87,5 +88,13 @@ export class AdminController {
   @Delete('deleteProduct')
   async deleteProduct(@Query('id') id: string) {
     return await this.adminService.deleteProduct(id);
+  }
+
+  @Put('featureProduct')
+  async featureProduct(
+    @Query('id') id: string,
+    @Body('featured') featured: boolean,
+  ) {
+    return await this.adminService.featureProduct(id, featured);
   }
 }

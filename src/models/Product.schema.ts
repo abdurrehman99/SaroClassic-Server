@@ -27,6 +27,9 @@ export const ProductSchema = new mongoose.Schema({
   size: {
     type: String,
   },
+  featured: {
+    type: Boolean,
+  },
   feedback: [
     {
       type: mongoose.Schema.Types.ObjectId,

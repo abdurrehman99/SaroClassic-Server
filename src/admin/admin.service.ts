@@ -192,4 +192,23 @@ export class AdminService {
       throw new BadRequestException(ResponseMsgs.NotExist);
     }
   }
+
+  /******* Feature Product  *******/
+  async featureProduct(_id, featured) {
+    let featureProduct = await this.productModel.findOneAndUpdate(
+      { _id },
+      { featured },
+    );
+    if (featureProduct) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.OK,
+          msg: ResponseMsgs.Updated,
+        },
+        HttpStatus.OK,
+      );
+    } else {
+      throw new BadRequestException(ResponseMsgs.NotExist);
+    }
+  }
 }
