@@ -14,7 +14,7 @@ export class authMiddleware implements NestMiddleware {
       const token = header.split(' ');
       try {
         // console.log(token[1]);
-        const decode = jwt.verify(token[1], 'secret');
+        const decode = jwt.verify(token[1], process.env.JWT_SECRET);
         console.log('check token', decode);
         next();
       } catch (error) {

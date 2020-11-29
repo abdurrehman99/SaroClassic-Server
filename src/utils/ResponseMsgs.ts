@@ -8,6 +8,7 @@ const ResponseMsgs: any = {
   Deleted: 'Entity Deleted Successfully !',
   passwordChanged: 'Passowrd Changed Successfully !',
   passwordNotChanged: 'Old Password is Incorrect !',
+  tokenExpired: 'Session Expired !',
 };
 
 export default ResponseMsgs;

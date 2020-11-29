@@ -3,6 +3,7 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  NotAcceptableException,
   NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -19,11 +20,24 @@ const bcrypt = require('bcryptjs');
 export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
+  async checkToken(token) {
+    console.log('checkToken===>');
+    try {
+      jwt.verify(token, process.env.JWT_SECRET);
+      // return;
+    } catch (error) {
+      throw new BadRequestException(ResponseMsgs.tokenExpired);
+    }
+  }
+
   async decodeUserData(token) {
     const decodeUser: { email: string } = jwtDecode(token);
     const { email } = decodeUser;
     let user = await this.userModel.findOne({ email });
+    // console.log(user);
     if (user) {
+      user.password = '';
+
       throw new HttpException(
         {
           statusCode: HttpStatus.OK,
@@ -37,30 +51,35 @@ export class UserService {
   }
 
   async login(email, password) {
-    let user = await this.userModel.findOne({ email });
-    const { contact, name, shippingAddress } = user;
-    if (user) {
-      let passwordMatched = await bcrypt.compareSync(password, user.password);
-      if (passwordMatched) {
-        const token = jwt.sign(
-          { email, contact, name, shippingAddress },
-          'secret',
-          {
-            expiresIn: '24h',
-          },
-        );
-        user.password = '';
-        throw new HttpException(
-          {
-            statusCode: HttpStatus.OK,
-            token,
-            user,
-          },
-          HttpStatus.OK,
-        );
-      } else throw new BadRequestException(ResponseMsgs.wrongCredentials);
+    if (email === 'admin@saroclassic.com') {
+      throw new NotAcceptableException(ResponseMsgs.wrongCredentials);
     } else {
-      throw new BadRequestException(ResponseMsgs.wrongCredentials);
+      let user = await this.userModel.findOne({ email });
+      if (user) {
+        const { contact, name, shippingAddress } = user;
+
+        let passwordMatched = await bcrypt.compareSync(password, user.password);
+        if (passwordMatched) {
+          const token = jwt.sign(
+            { email, contact, name, shippingAddress },
+            process.env.JWT_SECRET,
+            {
+              expiresIn: '10s',
+            },
+          );
+          user.password = '';
+          throw new HttpException(
+            {
+              statusCode: HttpStatus.OK,
+              token,
+              user,
+            },
+            HttpStatus.OK,
+          );
+        } else throw new BadRequestException(ResponseMsgs.wrongCredentials);
+      } else {
+        throw new BadRequestException(ResponseMsgs.wrongCredentials);
+      }
     }
   }
 

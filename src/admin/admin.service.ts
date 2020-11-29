@@ -29,8 +29,8 @@ export class AdminService {
     if (admin) {
       let passwordMatched = await bcrypt.compareSync(password, admin.password);
       if (passwordMatched) {
-        const token = jwt.sign({ email }, 'secret', {
-          expiresIn: '24h',
+        const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+          expiresIn: '1h',
         });
         throw new HttpException(
           {
