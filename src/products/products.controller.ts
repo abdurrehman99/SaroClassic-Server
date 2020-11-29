@@ -14,4 +14,9 @@ export class ProductsController {
     if (l) limit = l;
     return await this.productsService.getAllProducts(category, Number(limit));
   }
+
+  @Get('featured')
+  async getFeaturedProducts() {
+    return await this.productsService.getFeaturedProducts();
+  }
 }

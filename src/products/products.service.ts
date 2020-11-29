@@ -35,4 +35,16 @@ export class ProductsService {
       HttpStatus.OK,
     );
   }
+
+  /******** Get Featured Products ********/
+  async getFeaturedProducts() {
+    let products = await this.productsModel.find({ featured: true });
+    throw new HttpException(
+      {
+        statusCode: HttpStatus.OK,
+        products,
+      },
+      HttpStatus.OK,
+    );
+  }
 }
