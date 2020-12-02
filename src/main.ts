@@ -2,13 +2,21 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import 'dotenv/config';
 import * as helmet from 'helmet';
+import * as xss from 'xss-clean';
+import * as mongoSanitize from 'express-mongo-sanitize';
 import * as rateLimit from 'express-rate-limit';
 
 async function startServer() {
   const app = await NestFactory.create(AppModule, { cors: true });
 
-  //Helmet Middleware
+  // Sanitize data
+  app.use(mongoSanitize());
+
+  // Set security headers
   app.use(helmet());
+
+  // Prevent XSS attacks
+  app.use(xss());
 
   app.use(
     rateLimit({
