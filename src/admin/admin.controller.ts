@@ -95,7 +95,16 @@ export class AdminController {
     @Query('id') id: string,
     @Body('featured') featured: boolean,
   ) {
-    console.log(id, featured);
+    // console.log(id, featured);
     return await this.adminService.featureProduct(id, featured);
+  }
+
+  @Put('outOfStockProduct')
+  async outOfStockProduct(
+    @Query('id') id: string,
+    @Body('outOfStock') outOfStock: boolean,
+  ) {
+    // console.log(id, outOfStock);
+    return await this.adminService.outOfStockProduct(id, outOfStock);
   }
 }

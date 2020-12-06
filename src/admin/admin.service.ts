@@ -211,4 +211,23 @@ export class AdminService {
       throw new BadRequestException(ResponseMsgs.NotExist);
     }
   }
+
+  /******* Out of Stock Product  *******/
+  async outOfStockProduct(_id, outOfStock) {
+    let product = await this.productModel.findOneAndUpdate(
+      { _id },
+      { outOfStock, featured: false },
+    );
+    if (product) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.OK,
+          msg: ResponseMsgs.Updated,
+        },
+        HttpStatus.OK,
+      );
+    } else {
+      throw new BadRequestException(ResponseMsgs.NotExist);
+    }
+  }
 }
