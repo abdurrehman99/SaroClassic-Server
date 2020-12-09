@@ -7,6 +7,7 @@ import { AdminModule } from './admin/admin.module';
 import { CategoriesModule } from './categories/categories.module';
 import { ProductsModule } from './products/products.module';
 import { UserModule } from './user/user.module';
+import { OrdersModule } from './orders/orders.module';
 import 'dotenv/config';
 
 @Module({
@@ -34,6 +35,7 @@ import 'dotenv/config';
     CategoriesModule,
     ProductsModule,
     UserModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

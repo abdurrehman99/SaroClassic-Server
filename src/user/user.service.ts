@@ -21,7 +21,6 @@ export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
   async checkToken(token) {
-    console.log('checkToken===>');
     try {
       jwt.verify(token, process.env.JWT_SECRET);
       // return;

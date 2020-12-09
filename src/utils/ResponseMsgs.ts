@@ -9,6 +9,7 @@ const ResponseMsgs: any = {
   passwordChanged: 'Passowrd Changed Successfully !',
   passwordNotChanged: 'Old Password is Incorrect !',
   tokenExpired: 'Session Expired !',
+  failed: 'Failed to create enitity',
 };
 
 export default ResponseMsgs;

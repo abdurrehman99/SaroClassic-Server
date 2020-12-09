@@ -7,11 +7,11 @@ export const OrdersSchema = new mongoose.Schema({
     type: String,
     enum: ['PENDING', 'CONFIRMED', 'DELIVERED'],
   },
-  totalBill: {
-    type: Number,
-    required: true,
+  paymentMethod: {
+    type: String,
+    enum: ['COD', 'STRIPE'],
   },
-  deliveryCharges: {
+  totalBill: {
     type: Number,
     required: true,
   },
@@ -21,6 +21,6 @@ export interface Orders {
   cart: [];
   UserId: string;
   status: string;
+  paymentMethod: string;
   totalBill: number;
-  deliveryCharges: number;
 }

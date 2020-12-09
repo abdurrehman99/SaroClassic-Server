@@ -7,8 +7,10 @@ import {
   Delete,
   Query,
   Put,
+  BadRequestException,
 } from '@nestjs/common';
 import { UserService } from './user.service';
+import * as jwt from 'jsonwebtoken';
 
 @Controller('user')
 export class UserController {
@@ -39,7 +41,10 @@ export class UserController {
 
   @Post('decodeUser')
   async decodeUserData(@Body('token') token: string) {
-    return await this.userService.decodeUserData(token);
+    const tokenData = jwt.verify(token, process.env.JWT_SECRET);
+    // console.log(tokenData);
+    if (tokenData) return await this.userService.decodeUserData(token);
+    else throw new BadRequestException('Token Expired !');
   }
 
   @Put('updateProfile')
