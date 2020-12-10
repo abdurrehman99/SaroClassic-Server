@@ -8,8 +8,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Orders } from '../models/Order.schema';
 import { Model } from 'mongoose';
 import ResponseMsgs from 'src/utils/ResponseMsgs';
+const moment = require('moment');
+
 const stripe = require('stripe')('sk_test_l1bAw4ZYCu9o5ZGChKYaQBaQ00h9cVfYqj');
-const uuid = require('uuid');
 
 @Injectable()
 export class OrdersService {
@@ -18,9 +19,12 @@ export class OrdersService {
   ) {}
 
   async addNewOrder(order) {
-    // console.log(order);
+    console.log(order);
+    let orderDate = moment().format('LL');
+    console.log(orderDate);
+
     try {
-      let newOrder = this.ordersModel(order);
+      let newOrder = this.ordersModel({ ...order, orderDate });
       await newOrder.save();
       // console.log(newOrder);
       return { msg: ResponseMsgs.Created };
@@ -70,6 +74,21 @@ export class OrdersService {
     } catch (error) {
       console.error('Error:', error);
       throw new BadRequestException(error);
+    }
+  }
+
+  async singleUserOrders(UserId) {
+    let orders = await this.ordersModel.find({ UserId });
+    if (orders !== null) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.OK,
+          orders,
+        },
+        HttpStatus.OK,
+      );
+    } else {
+      throw new BadRequestException(ResponseMsgs.NotExist);
     }
   }
 }

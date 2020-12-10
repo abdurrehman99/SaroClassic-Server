@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { Orders } from '../models/Order.schema';
 
@@ -19,5 +19,11 @@ export class OrdersController {
     @Body('amount') amount: number,
   ) {
     return await this.orderService.addToStripe(token, amount);
+  }
+
+  /** Post to stripe API**/
+  @Get('singleUserOrders')
+  async singleUserOrders(@Query('id') id: string) {
+    return await this.orderService.singleUserOrders(id);
   }
 }

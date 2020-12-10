@@ -100,14 +100,18 @@ export class UserService {
   }
 
   async updateProfile(email, name, contact, shippingAddress) {
-    let updateData = {
-      email: email ? email : null,
-      name: name ? name : null,
-      contact: contact ? contact : null,
-      shippingAddress: shippingAddress ? shippingAddress : null,
-    };
-    let user = await this.userModel.findOneAndUpdate({ email }, updateData);
-    if (user) {
+    let updateData = {};
+    email ? (updateData['email'] = email) : null;
+    name ? (updateData['name'] = name) : null;
+    contact ? (updateData['contact'] = contact) : null;
+    shippingAddress ? (updateData['shippingAddress'] = shippingAddress) : null;
+
+    let updatedUser = await this.userModel.findOneAndUpdate(
+      { email },
+      updateData,
+    );
+    if (updatedUser) {
+      const user = await this.userModel.findOne({ email });
       throw new HttpException(
         {
           statusCode: HttpStatus.OK,
