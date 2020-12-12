@@ -63,7 +63,7 @@ export class UserService {
             { email, contact, name, shippingAddress },
             process.env.JWT_SECRET,
             {
-              expiresIn: '1h',
+              expiresIn: '2h',
             },
           );
           user.password = '';
