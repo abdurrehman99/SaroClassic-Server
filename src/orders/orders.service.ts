@@ -30,14 +30,13 @@ export class OrdersService {
       let newOrder = this.ordersModel({ ...order, orderDate, orderNo });
       await newOrder.save();
       // console.log(newOrder);
-      return { msg: ResponseMsgs.Created };
+      return { msg: ResponseMsgs.Created, orderNo };
     } catch (error) {
       console.log(error);
       throw new HttpException(
         {
           statusCode: HttpStatus.BAD_REQUEST,
           msg: ResponseMsgs.failed,
-          orderNo,
         },
         HttpStatus.BAD_REQUEST,
       );
