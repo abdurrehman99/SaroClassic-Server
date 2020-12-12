@@ -19,12 +19,15 @@ export class OrdersService {
   ) {}
 
   async addNewOrder(order) {
-    console.log(order);
+    // console.log(order);
     let orderDate = moment().format('LL');
+    let orderNo =
+      'SR' + Math.floor(100 + Math.random() * 900) + order.cart.length;
     console.log(orderDate);
+    console.log(orderNo);
 
     try {
-      let newOrder = this.ordersModel({ ...order, orderDate });
+      let newOrder = this.ordersModel({ ...order, orderDate, orderNo });
       await newOrder.save();
       // console.log(newOrder);
       return { msg: ResponseMsgs.Created };
@@ -34,6 +37,7 @@ export class OrdersService {
         {
           statusCode: HttpStatus.BAD_REQUEST,
           msg: ResponseMsgs.failed,
+          orderNo,
         },
         HttpStatus.BAD_REQUEST,
       );

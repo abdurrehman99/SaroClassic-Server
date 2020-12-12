@@ -23,6 +23,10 @@ export const OrdersSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  orderNo: {
+    type: String,
+    required: true,
+  },
 });
 
 export interface Orders {
@@ -33,4 +37,5 @@ export interface Orders {
   totalBill: number;
   shippingAddress: string;
   orderDate: string;
+  orderNo: string;
 }
