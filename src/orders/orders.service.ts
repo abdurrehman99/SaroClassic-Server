@@ -10,7 +10,7 @@ import { Model } from 'mongoose';
 import ResponseMsgs from 'src/utils/ResponseMsgs';
 const moment = require('moment');
 
-const stripe = require('stripe')('sk_test_l1bAw4ZYCu9o5ZGChKYaQBaQ00h9cVfYqj');
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 
 @Injectable()
 export class OrdersService {
