@@ -11,6 +11,7 @@ import { User } from '../models/User.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import ResponseMsgs from '../utils/ResponseMsgs';
+import { sendMail } from '../utils/sendMail';
 import jwtDecode from 'jwt-decode';
 
 const jwt = require('jsonwebtoken');
@@ -36,7 +37,7 @@ export class UserService {
     // console.log(user);
     if (user) {
       user.password = '';
-
+      user.resetPasswordCode = '';
       throw new HttpException(
         {
           statusCode: HttpStatus.OK,
@@ -67,6 +68,7 @@ export class UserService {
             },
           );
           user.password = '';
+          user.resetPasswordCode = '';
           throw new HttpException(
             {
               statusCode: HttpStatus.OK,
@@ -112,6 +114,9 @@ export class UserService {
     );
     if (updatedUser) {
       const user = await this.userModel.findOne({ email });
+      user.resetPasswordCode = '';
+      user.password = '';
+
       throw new HttpException(
         {
           statusCode: HttpStatus.OK,

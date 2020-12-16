@@ -19,6 +19,12 @@ export const UserSchema = new mongoose.Schema({
   shippingAddress: {
     type: String,
   },
+  resetPasswordCode: {
+    type: String,
+  },
+  expiry: {
+    type: Date,
+  },
   typeOfCustomer: {
     type: String,
     enum: ['WALK-IN', 'LOGGED-IN'],
@@ -34,6 +40,8 @@ export interface User {
   contact: string;
   passowrd: string;
   billingAddress: string;
+  resetPasswordCode: string;
+  expiry: Date;
   shippingAddress: string;
   typeOfCustomer: number;
   orders: [];

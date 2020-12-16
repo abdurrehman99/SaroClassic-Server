@@ -5,6 +5,10 @@ export const ProductSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  mainCategory: {
+    type: String,
+    required: true,
+  },
   category: {
     type: String,
     required: true,
@@ -41,6 +45,7 @@ export const ProductSchema = new mongoose.Schema({
 export interface Product {
   name: string;
   category: string;
+  mainCategory: string;
   quantity: number;
   images: [];
   description: string;
