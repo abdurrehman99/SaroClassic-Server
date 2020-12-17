@@ -6,18 +6,50 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Orders } from '../models/Order.schema';
+import { User } from '../models/User.schema';
 import { Model } from 'mongoose';
 import ResponseMsgs from 'src/utils/ResponseMsgs';
 const moment = require('moment');
-const stripe = require('stripe')(process.env.STRIPE_KEY);
+const stripe = require('stripe')('sk_test_l1bAw4ZYCu9o5ZGChKYaQBaQ00h9cVfYqj');
 
 @Injectable()
 export class OrdersService {
   constructor(
     @InjectModel('Orders') private readonly ordersModel: Model<Orders>,
+    @InjectModel('User') private readonly userModel: Model<Orders>,
   ) {}
 
-  async addNewOrder(order) {
+  async changeStatus(_id, status) {
+    let order = await this.ordersModel.findOneAndUpdate({ _id }, { status });
+    if (order) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.CREATED,
+          msg: ResponseMsgs.Updated,
+        },
+        HttpStatus.CREATED,
+      );
+    } else {
+      throw new BadRequestException(ResponseMsgs.NotExist);
+    }
+  }
+
+  async getAllOrders() {
+    let orders = await this.ordersModel.find({});
+    if (orders) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.OK,
+          orders,
+        },
+        HttpStatus.OK,
+      );
+    } else {
+      throw new BadRequestException(ResponseMsgs.NotExist);
+    }
+  }
+
+  async addNewOrder(order, user) {
     // console.log(order);
     let orderDate = moment().format('LL');
     let orderNo =
@@ -28,6 +60,12 @@ export class OrdersService {
     try {
       let newOrder = this.ordersModel({ ...order, orderDate, orderNo });
       await newOrder.save();
+      if (user) {
+        await this.userModel.findOneAndUpdate(
+          { _id: user._id },
+          { shippingAddress: order.shippingAddress, orders: newOrder._id },
+        );
+      }
       // console.log(newOrder);
       return { msg: ResponseMsgs.Created, orderNo };
     } catch (error) {

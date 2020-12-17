@@ -85,12 +85,15 @@ export class AdminService {
   }
 
   /******* Add new category *******/
-  async addNewCategory(name) {
+  async addNewCategory(name, mainCategory) {
+    // console.log(name, mainCategory);
     try {
       let newCategory = this.categoryModel({
         name,
+        mainCategory,
       });
       await newCategory.save();
+      // console.log(newCategory);
       return { msg: ResponseMsgs.Created };
     } catch (error) {
       console.log(error);

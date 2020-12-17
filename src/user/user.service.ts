@@ -21,6 +21,36 @@ const bcrypt = require('bcryptjs');
 export class UserService {
   constructor(@InjectModel('User') private readonly userModel: Model<User>) {}
 
+  async getAll() {
+    let users = await this.userModel.find({});
+    if (users) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.OK,
+          users,
+        },
+        HttpStatus.OK,
+      );
+    } else {
+      throw new BadRequestException(ResponseMsgs.NotExist);
+    }
+  }
+
+  async deleteUser(_id) {
+    let user = await this.userModel.deleteOne({ _id });
+    if (user) {
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.OK,
+          msg: ResponseMsgs.Deleted,
+        },
+        HttpStatus.OK,
+      );
+    } else {
+      throw new BadRequestException(ResponseMsgs.NotExist);
+    }
+  }
+
   async checkToken(token) {
     try {
       jwt.verify(token, process.env.JWT_SECRET);

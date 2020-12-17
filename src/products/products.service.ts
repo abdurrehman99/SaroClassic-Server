@@ -20,16 +20,14 @@ export class ProductsService {
   ) {}
 
   /******* Get All products *******/
-  async getAllProducts(category, limit) {
+  async getAllProducts(mainCategory, limit) {
     let products = [];
-    let categories = [];
-    if (category)
-      products = await this.productsModel.find({ category }).limit(limit);
+    if (mainCategory)
+      products = await this.productsModel.find({ mainCategory }).limit(limit);
     else products = await this.productsModel.find().limit(limit);
-    const c = await this.categoriesModel.find();
-    c.forEach((e) => {
-      categories.push(e.name);
-    });
+
+    const categories = await this.categoriesModel.find({ mainCategory });
+
     throw new HttpException(
       {
         statusCode: HttpStatus.OK,

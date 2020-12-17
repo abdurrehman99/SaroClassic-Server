@@ -7,6 +7,7 @@ import {
   Delete,
   Query,
   Put,
+  BadRequestException,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { Product } from '../models/Product.schema';
@@ -35,8 +36,14 @@ export class AdminController {
   /** Category Routes **/
 
   @Post('addNewCategory')
-  async addNewCategory(@Body('name') name: string) {
-    return await this.adminService.addNewCategory(name.toLocaleUpperCase());
+  async addNewCategory(
+    @Body('name') name: string,
+    @Body('mainCategory') mainCategory: string,
+  ) {
+    return await this.adminService.addNewCategory(
+      name.toUpperCase(),
+      mainCategory.toUpperCase(),
+    );
   }
 
   @Post('renameCategory')

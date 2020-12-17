@@ -16,6 +16,16 @@ import * as jwt from 'jsonwebtoken';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
+  @Get('all')
+  async getAll() {
+    return await this.userService.getAll();
+  }
+
+  @Delete('')
+  async deleteUser(@Query('id') id: string) {
+    return await this.userService.deleteUser(id);
+  }
+
   @Post('login')
   async login(
     @Body('email') email: string,
