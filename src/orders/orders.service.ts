@@ -34,8 +34,11 @@ export class OrdersService {
     }
   }
 
-  async getAllOrders() {
-    let orders = await this.ordersModel.find({});
+  async getAllOrders(status) {
+    let orders = [];
+    status
+      ? (orders = await this.ordersModel.find({ status }))
+      : (orders = await this.ordersModel.find({}));
     if (orders) {
       throw new HttpException(
         {
@@ -63,7 +66,10 @@ export class OrdersService {
       if (user) {
         await this.userModel.findOneAndUpdate(
           { _id: user._id },
-          { shippingAddress: order.shippingAddress, orders: newOrder._id },
+          {
+            shippingAddress: order.shippingAddress,
+            $push: { orders: orderNo },
+          },
         );
       }
       // console.log(newOrder);

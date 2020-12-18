@@ -9,8 +9,8 @@ export class OrdersController {
 
   /** Get All Orders **/
   @Get('all')
-  async getAllOrders() {
-    return await this.orderService.getAllOrders();
+  async getAllOrders(@Query('q') q: string) {
+    return await this.orderService.getAllOrders(q);
   }
 
   /** Chnage order Status **/

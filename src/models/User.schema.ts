@@ -30,7 +30,7 @@ export const UserSchema = new mongoose.Schema({
     enum: ['WALK-IN', 'LOGGED-IN'],
   },
   orders: {
-    type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Orders' }],
+    type: Array,
   },
 });
 
