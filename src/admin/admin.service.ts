@@ -49,7 +49,7 @@ export class AdminService {
 
   async changePassword(passwordOld, passwordNew) {
     const admin = await this.adminModel.findOne({
-      email: 'admin@saroclassic.com',
+      email: 'saroclassicofficial@gmail.com',
     });
     // console.log(changed);
     if (admin) {

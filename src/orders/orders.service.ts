@@ -37,8 +37,8 @@ export class OrdersService {
   async getAllOrders(status) {
     let orders = [];
     status
-      ? (orders = await this.ordersModel.find({ status }))
-      : (orders = await this.ordersModel.find({}));
+      ? (orders = await this.ordersModel.find({ status }).sort('1'))
+      : (orders = await this.ordersModel.find({}).sort('1'));
     if (orders) {
       throw new HttpException(
         {

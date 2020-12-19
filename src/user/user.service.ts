@@ -81,7 +81,7 @@ export class UserService {
   }
 
   async login(email, password) {
-    if (email === 'admin@saroclassic.com') {
+    if (email === 'saroclassicofficial@gmail.com') {
       throw new NotAcceptableException(ResponseMsgs.wrongCredentials);
     } else {
       let user = await this.userModel.findOne({ email });
