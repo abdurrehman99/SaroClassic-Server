@@ -26,7 +26,7 @@ export class ProductsService {
       products = await this.productsModel.find({ mainCategory }).limit(limit);
     else products = await this.productsModel.find().limit(limit);
 
-    const categories = await this.categoriesModel.find({ mainCategory });
+    const categories = await this.categoriesModel.find({});
 
     throw new HttpException(
       {
